@@ -2,6 +2,7 @@
 import pytest
 
 from src.item import Item
+from settings import ITEMS_CSV
 
 
 @pytest.fixture
@@ -18,3 +19,25 @@ def test_apply_discount(item1):
 
 def test_calculate_total_price(item1):
     assert item1.calculate_total_price() == 200000
+
+
+def test_name():
+    item = Item('Телефон', 10000, 5)
+
+    # длина наименования товара меньше 10 символов
+    item.name = 'Смартфон'
+    assert item.name == 'Смартфон'
+
+    # длина наименования товара больше 10 символов
+    item.name = 'СуперСмартфон'
+    # Exception: Длина наименования товара превышает 10 символов.
+
+    Item.instantiate_from_csv(ITEMS_CSV)  # создание объектов из данных файла
+    assert len(Item.all) == 5  # в файле 5 записей с данными по товарам
+
+    item1 = Item.all[0]
+    assert item1.name == 'Смартфон'
+
+    assert Item.string_to_number('5') == 5
+    assert Item.string_to_number('5.0') == 5
+    assert Item.string_to_number('5.5') == 5
