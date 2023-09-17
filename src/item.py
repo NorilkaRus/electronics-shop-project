@@ -29,6 +29,12 @@ class Item:
         return self.__name
 
 
+    def __add__(self, other):
+        if isinstance(self, Item) and isinstance(other, Item):
+            return self.quantity + other.quantity
+        return None
+
+
     @property
     def name(self):
         return self.__name
