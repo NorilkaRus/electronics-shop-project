@@ -22,4 +22,4 @@ class Phone(Item):
         if number > 0:
             self.__number_of_sim = number
         else:
-            print("Количество физических SIM-карт должно быть целым числом больше нуля")
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля")
