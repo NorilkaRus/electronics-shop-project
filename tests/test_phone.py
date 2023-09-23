@@ -21,3 +21,11 @@ def test_add():
     assert item1 + phone1 == 25
     assert phone1 + phone1 == 10
     assert item1 + 1 == None
+
+
+def test_number_of_sim():
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    assert phone1.number_of_sim == 2
+
+    phone1.number_of_sim = 3
+    assert phone1.number_of_sim == 3
