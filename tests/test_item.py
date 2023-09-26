@@ -53,3 +53,8 @@ def test_add():
     item1 = Item("Смартфон", 10000, 20)
     item2 = Item("Консоль PlayStation 5", 60000, 7)
     assert item1 + item2 == 27
+
+
+def test_instantiate_from_csv_file_not():
+        with pytest.raises(FileNotFoundError):
+            Item.instantiate_from_csv(ITEMS_CSV)

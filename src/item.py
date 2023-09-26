@@ -1,5 +1,11 @@
 from csv import DictReader
 
+
+class InstantiateCSVError(Exception):
+    def __init__(self):
+        self.message = "Файл item.csv поврежден"
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -19,7 +25,6 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        Item.all.append(self)
 
 
     def __repr__(self):
@@ -69,15 +74,27 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, file):
         Item.all = []
-        with open(file, encoding='windows-1251') as file:
-            dict_obj = DictReader(file)
-            for row in dict_obj:
-                __name = str(row['name'])
-                price = float(row['price'])
-                quantity = int(row['quantity'])
-                item = cls(__name, price, quantity)
+        try:
+            with open(file, encoding="windows-1251") as file_:
+                dict_obj = DictReader(file_)
+                try:
+                    for row in dict_obj:
+                        __name = str(row['name'])
+                        price = float(row['price'])
+                        quantity = int(row['quantity'])
+
+                        item = cls(__name, price, quantity)
+                        cls.all.append(item)
+                except KeyError:
+                    raise InstantiateCSVError
+
+        except FileNotFoundError:
+            print("Отсутствует файл items.csv")
+        except InstantiateCSVError as m:
+            print(m.message)
 
 
     @staticmethod
     def string_to_number(number_string):
         return int(float(number_string))
+
